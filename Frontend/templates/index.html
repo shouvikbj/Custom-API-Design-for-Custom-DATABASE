@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API</title>
+</head>
+<body align="center">
+    <h3>Create User</h3>
+    <form action="/addUser" method="POST">
+        <input type="text" id="name" name="name" placeholder="Name" required><br><br>
+        <input type="text" id="age" name="age" placeholder="Age" required><br><br>
+        <input type="submit" value="Submit">
+    </form> 
+    <br><br>
+    <h3>See All Users</h3>
+    <a href="/allUsers">
+        <button>See All Users</button>
+    </a>
+    <br><br>
+    <h3>Get an User</h3>
+    <form action="/getUser" method="POST">
+        <input type="text" id="id" name="id" placeholder="User's Id"><br><br>
+        <input type="submit" value="Find User">
+    </form>
+
+</body>
+</html>
