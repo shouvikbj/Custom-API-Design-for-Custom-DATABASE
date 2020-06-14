@@ -8,12 +8,13 @@ def createTable():
         CREATE TABLE IF NOT EXISTS user(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR2(2000) NOT NULL,
-            age VARCHAR2(10) NOT NULL
+            age VARCHAR2(10) NOT NULL,
+            image VARCHAR2(1000) NOT NULL
         )
     """)
 
-def enterData(name, age):
-    db.execute("INSERT INTO user VALUES(NULL,?,?)",(name, age))
+def enterData(name, age, image):
+    db.execute("INSERT INTO user VALUES(NULL,?,?,?)",(name, age, image))
     con.commit()
     return True
 
@@ -33,7 +34,6 @@ def deleteData(id):
     db.execute("DELETE FROM user WHERE id=(?)",(id,))
     con.commit()
     return user
-
 
 
 

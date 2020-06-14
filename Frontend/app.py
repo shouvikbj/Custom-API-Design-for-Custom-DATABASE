@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, jsonify, make_response, redirect
-import requests, json
+from flask import Flask, render_template, request, jsonify, make_response, redirect, url_for, flash
+import requests, json, os
 
 app = Flask(__name__, static_url_path='')
+app.secret_key = 'this is a secret key'
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 @app.route("/")
@@ -14,22 +17,34 @@ def allUsers():
         response = requests.get("http://127.0.0.1:5000/user")
         data = response.json()
         # print(data)
-        return jsonify(data)
+        return render_template("view.html", users=data)
     except:
         return "<h1>Could not connect to Database Server.</h1>"
 
 @app.route("/addUser", methods=["POST"])
 def addUser():
+    target = APP_ROOT+'/static/images'
     name = request.form.get("name")
     age = request.form.get("age")
+    imagefile = request.files.get("img")
+    image = ""
+    if(imagefile):
+        image = imagefile.filename
+        destination = "/".join([target,image])
+        imagefile.save(destination)
+    else:
+        image = 'img2.jpg'
     user = {
         "name" : name,
-        "age" : age
+        "age" : age,
+        "image": image
     }
     response = requests.post("http://127.0.0.1:5000/user", json=user)
     added_user = response.json()
     # print(added_user)
-    return jsonify(added_user)
+    msg = "User : \"" + added_user['name'] + "\" is ADDED successfully."
+    flash(msg, "success")
+    return redirect(url_for('index'))
 
 @app.route("/getUser", methods=["POST"])
 def getUser():
@@ -51,11 +66,9 @@ def deleteUser(id):
     response = requests.delete(url)
     deleted_user = response.json()
     # print(deleted_user)
-    return jsonify(deleted_user)
-
-
-
-
+    msg = "User : \"" + deleted_user['name'] + "\" is DELETED successfully."
+    flash(msg, "success")
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

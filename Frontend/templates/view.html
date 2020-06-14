@@ -4,29 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Delete User</title>
+    <title>All Users</title>
     <style>
         body{
             background-color: #74B9FF;
         }
         #card{
             box-shadow: 0px 0px 5px 0px slateblue;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body align="center">
     <div class="container" align="center">
-        <div id="card" class="card" style="width: 18rem;" align="left">
-            <img class="card-img-top" src="/images/{{ user['image'] }}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{ user['name'] }}</h5>
-                <p class="card-text">Age : {{ user['age'] }}</p>
-                <p class="card-text">User ID : {{ user['id'] }}</p>
-                <a href="/deleteUser/{{ user['id'] }}" class="btn btn-outline-danger">Delete User</a>
+        <div style="margin: 20px;">
+            {% if (users|length) %}
+            {% for user in users %}
+            <div class="container">
+                <div id="card" class="card" style="width: 18rem;" align="left">
+                    <img class="card-img-top" src="/images/{{ user['image'] }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user['name'] }}</h5>
+                        <p class="card-text">Age : {{ user['age'] }}</p>
+                        <p class="card-text">User ID : {{ user['id'] }}</p>
+                        <a href="/user/{{ user['id'] }}" class="btn btn-outline-info">View User</a>
+                    </div>
+                </div>
+                <br>
             </div>
+            {% endfor %}
+            {% else %}
+            <div id="card" class="card" style="width: 18rem;">
+                <img class="card-img-top" src="/images/img2.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">No Users Till Now</h5>
+                    <button class="btn btn-outline-info" disabled>View User</button>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
+
 
 
 

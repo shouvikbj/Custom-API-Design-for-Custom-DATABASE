@@ -7,11 +7,13 @@ app = Flask(__name__)
 def addData():
     name = request.json['name']
     age = request.json['age']
-    result = db.enterData(name,age)
+    image = request.json['image']
+    result = db.enterData(name,age,image)
     if(result):
         user = {
             "name" : name,
-            "age": age
+            "age": age,
+            "image": image
         }
     return jsonify(user)
 
@@ -23,7 +25,8 @@ def getAllUsers():
         cur_user = {
             "id" : user[0],
             "name" : user[1],
-            "age" : user[2]
+            "age" : user[2],
+            "image": user[3]
         }
         ret_users.append(cur_user)
     return jsonify(ret_users)
@@ -35,7 +38,8 @@ def deleteUser(id):
         cur_user = {
             "id" : user[0][0],
             "name" : user[0][1],
-            "age" : user[0][2]
+            "age" : user[0][2],
+            "image": user[0][3]
         }
         return jsonify(cur_user)
     else:
@@ -51,7 +55,8 @@ def getOneUser(id):
         cur_user = {
             "id" : user[0][0],
             "name" : user[0][1],
-            "age" : user[0][2]
+            "age" : user[0][2],
+            "image": user[0][3]
         }
         return jsonify(cur_user)
     else:
